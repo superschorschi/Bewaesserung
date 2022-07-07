@@ -5,14 +5,15 @@ int pumpeTopf1Pin = 12;
 int pumpeTopf2Pin = 13;
 
 //Unterhalb diser Sensorwerte wird nicht gegossen
-int sollTopf1 = 300;
-int sollTopf2 = 300;
+int Topf1Soll = 300;
+int Topf2Soll = 300;
 
-int istTopf1 = 700;
-int istTopf2 = 700;
+int Topf1Ist = 700;
+int Topf2Ist = 700;
 
-//Wartezeit zwischen den Messungen eine Stunde
-int Wartezeit = 3600000;
+//Wartezeit zwischen den Messungen [ms] 
+//int Wartezeit = 3600000;  // eine Stunde
+int Wartezeit = 60000;  // eine Minute
 
 //Solang wird bei zu trockenem Boden gepumpt [ms]
 int Pumpzeit = 25000;
@@ -40,19 +41,19 @@ void setup() {
 void loop() {
 
   //Messen...
-  istTopf1 = analogRead(sensorTopf1Pin);
-  istTopf2 = analogRead(sensorTopf2Pin);
+  Topf1Ist = analogRead(sensorTopf1Pin);
+  Topf2Ist = analogRead(sensorTopf2Pin);
   
   //... Werte seriell ausgeben...
   Serial.print("Feuchtigkeit Topf 1: ");
-  Serial.print(istTopf1);
+  Serial.print(Topf1Ist);
   Serial.print("\t");   
   Serial.print("Feuchtigkeit Topf 2: ");
-  Serial.print(istTopf2);
+  Serial.print(Topf2Ist);
   Serial.print("\t");   
 
   //...und bei Bedarf pumpen
-  if(istTopf1 > sollTopf1) 
+  if(Topf1Ist > Topf1Soll) 
     {
       digitalWrite(pumpeTopf1Pin, HIGH);
       Serial.print("Topf1 zu trocken!!!"   );
@@ -66,7 +67,7 @@ void loop() {
       Serial.print("\t");
     }
     
-  if(istTopf2 > sollTopf2) 
+  if(Topf2Ist > Topf2Soll) 
     {
       digitalWrite(pumpeTopf2Pin, HIGH);
       Serial.print("Topf2 zu trocken!!!"   );
